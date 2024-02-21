@@ -6,22 +6,38 @@ function App() {
   const [todos, setTodos] = useState([])
 
   useEffect(() => {
-    let todoString=localStorage.getItem ("todos" );
+    let todoString=localStorage.getItem("todos");
     if (todoString){
-      let todos= JSON.parse(localStorage.getItem ("todos" ))
+      const todos= JSON.parse(localStorage.getItem ("todos" ))
       setTodos(todos);  
     }
   }, [])
   
-  const saveToLS=( ) => {
-    localStorage.setItem("todos",JSON.stringify (todos))
+  // const saveToLS=( ) => {
+  //   localStorage.setItem("todos",JSON.stringify (todos))
+  // }
+  const saveToLS = () => {
+    if (todos.length > 0) {
+      localStorage.setItem("todos", JSON.stringify(todos));
+    } else {
+      localStorage.removeItem("todos"); // Remove the empty todos key from local storage
+    }
+  };
+  
+  
+  // const handleAdd=()=>{
+  //   setTodos([...todos,{id:uuidv4(), todo , isCompleted:false}])
+  //   setTodo("")
+  //   saveToLS();
+  // }
+  const handleAdd = () => {
+    if (todo.trim() !== "") {
+      setTodos([...todos, { id: uuidv4(), todo, isCompleted: false }])
+      setTodo("") // Move this line inside the if condition
+      saveToLS();
+    }
   }
   
-  const handleAdd=()=>{
-    setTodos([...todos,{id:uuidv4(), todo , isCompleted:false}])
-    setTodo("")
-    saveToLS();
-  }
 
   const handleEdit=(e,id )=>{
     let t=todos.filter(i=>i.id===id)
